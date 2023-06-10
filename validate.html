@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Registration Form</title>
+  <style>
+    .error-message {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Student Registration Form</h1>
+
+  <form id="registrationForm" onsubmit="return validateForm()">
+    <div>
+      <label for="nameInput">Name:</label>
+      <input type="text" id="nameInput" required>
+    </div>
+
+    <div>
+      <label for="emailInput">Email:</label>
+      <input type="email" id="emailInput" required>
+    </div>
+
+    <div>
+      <label for="ageInput">Age:</label>
+      <input type="number" id="ageInput" required>
+    </div>
+
+    <div>
+      <input type="submit" value="Register">
+    </div>
+  </form>
+
+  <script>
+    function validateForm() {
+      const nameInput = document.getElementById('nameInput');
+      const emailInput = document.getElementById('emailInput');
+      const ageInput = document.getElementById('ageInput');
+
+      const nameValue = nameInput.value.trim();
+      const emailValue = emailInput.value.trim();
+      const ageValue = ageInput.value.trim();
+
+      // Validate name field
+      if (nameValue === '') {
+        displayErrorMessage(nameInput, 'Name is required.');
+        return false;
+      }
+
+      // Validate email field
+      if (emailValue === '') {
+        displayErrorMessage(emailInput, 'Email is required.');
+        return false;
+      }
+
+      // Validate age field
+      if (ageValue === '') {
+        displayErrorMessage(ageInput, 'Age is required.');
+        return false;
+      }
+
+      if (isNaN(ageValue)) {
+        displayErrorMessage(ageInput, 'Age must be a number.');
+        return false;
+      }
+
+      if (parseInt(ageValue) < 18) {
+        displayErrorMessage(ageInput, 'You must be at least 18 years old.');
+        return false;
+      }
+
+      return true;
+    }
+
+    function displayErrorMessage(inputElement, message) {
+      // Remove any previous error message
+      clearErrorMessage(inputElement);
+
+      // Create a new error message element
+      const errorMessage = document.createElement('span');
+      errorMessage.className = 'error-message';
+      errorMessage.textContent = message;
+
+      // Insert the error message after the input element
+      inputElement.insertAdjacentElement('afterend', errorMessage);
+    }
+
+    function clearErrorMessage(inputElement) {
+      const nextSibling = inputElement.nextElementSibling;
+      if (nextSibling && nextSibling.classList.contains('error-message')) {
+        nextSibling.remove();
+      }
+    }
+  </script>
+</body>
+</html>
